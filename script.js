@@ -12,6 +12,18 @@ const cells = document.querySelectorAll('.cell');
 //alert(cells.length);
 cells.forEach(c => {c.addEventListener('click', () => cellClick(c))})
 
+
+let board = await submit('GET', 'http://localhost:3000/api/rndletters/10')
+
+for (let i=0; i<board.length; i++) {
+
+    let id = 'c' + i
+    let tile = document.getElementById(id)
+    tile.innerHTML = board[i] // set tile innerhtml to each letter from the board array
+
+}
+
+
 //function cellClick (c) {
 //    alert('click ' + c.id); 
 //}
@@ -51,8 +63,9 @@ async function submit(method, url){
   
     if (response.ok){     
         const obj = await response.json() 
-        console.log(obj[0].word + obj[0].meanings[0].definitions[0].definition)       
-	
+        //console.log(obj[0].word + obj[0].meanings[0].definitions[0].definition)       
+        return (obj)
+
 	// Do something with the object we just receved
 
     }
