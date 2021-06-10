@@ -17,11 +17,23 @@
 </head>
 <body>
     <div style= 'display: flex'>
-        <div class='cell' id = 'c1' data-neighbours = 'c2'>B</div>
-        <div class='cell' id = 'c2' data-neighbours = 'c1,c3'>C</div>
-        <div class='cell' id = 'c3' data-neighbours = 'c2,c4'>A</div>
-        <div class='cell' id = 'c4' data-neighbours = 'c3,c5'>U</div>
-        <div class='cell' id = 'c5' data-neighbours = 'c4'>I</div>
+        <div class='cell' id = 'c1' data-neighbours = 'c2,c6,c7'>T</div>
+        <div class='cell' id = 'c2' data-neighbours = 'c1,c3,c6,c7,c8'>A</div>
+        <div class='cell' id = 'c3' data-neighbours = 'c2,c4,c7,c8,c9'>X</div>
+        <div class='cell' id = 'c4' data-neighbours = 'c3,c5,c8,c9,c10'>I</div>
+        <div class='cell' id = 'c5' data-neighbours = 'c4,c9,c10'>I</div>
     </div>
+
+    <div style= 'display: flex'>
+        <div class='cell' id = 'c6' data-neighbours = 'c1,c2,c7'>E</div>
+        <div class='cell' id = 'c7' data-neighbours = 'c1,c2,c3,c6,c8'>A</div>
+        <div class='cell' id = 'c8' data-neighbours = 'c2,c3,c4,c7,c9'>N</div>
+        <div class='cell' id = 'c9' data-neighbours = 'c3,c4,c5,c8,c10'>T</div>
+        <div class='cell' id = 'c10' data-neighbours = 'c4,c5,c9'>I</div>
+    </div>
+
+
+    <div id="word"></div>
+    <button onclick="submitWord()">Submit</button>
 </body>
 </html>

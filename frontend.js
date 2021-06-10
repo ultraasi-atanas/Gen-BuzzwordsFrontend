@@ -5,7 +5,7 @@ let bigHex = document.getElementById('bigHex')
 function add_img() { 
 
 	
-	for (let i = 0; i < 52; i++) {
+	for (let i = 0; i < 4; i++) {
 		var img = document.createElement('img'); 
 		img.src = 'icons/hexagon.svg' 
 		img.className = "img2"
