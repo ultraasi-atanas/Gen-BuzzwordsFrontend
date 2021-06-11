@@ -57,16 +57,22 @@ async function submitWord() {
 async function submit(method, url,obj){
     
     
-        let    payload = JSON.stringify(obj) // the trick here is to make an object from the formdata
+    let payload=null
+
+    if (method=="POST"){
+        payload = JSON.stringify({letters: obj}) // the trick here is to make an object from the formdata
+        console.log ("PL:" + payload)
+    }
       
+    
     
     const response = await fetch(url, {method:method,body:payload,headers:{'Accept':'application/json','Content-Type':'application/json'}})
     //const response = await fetch(url, {method:method,headers:{'Accept':'application/json','Content-Type':'application/json'}})
   
     if (response.ok){     
-        const obj = await response.json() 
+        const promise = await response.json() 
         //console.log(obj[0].word + obj[0].meanings[0].definitions[0].definition)       
-        return (obj)
+        return (promise)
 
 	// Do something with the object we just receved
     
