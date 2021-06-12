@@ -20,7 +20,7 @@ function add_img() {
 
 	// 	}
 	// }
-	for (let r = rows-1; r <= stop-1; r++) {
+	for (let r = rows; r <= stop-1; r++) {
 
 		let row = document.createElement('div')
 		bigHex.appendChild(row)
