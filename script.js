@@ -49,22 +49,27 @@ const cellClick = cell => {
 }
 
 async function submitWord() {
-   let response = await submit('POST', 'http://localhost:3000/api/dict' ,letters)
+   let response = await submit('POST', 'http://localhost:3000/api/dict' ,{"letters":letters})
    console.log(response)
    document.getElementById("wordHistory").innerHTML= response.word +" "+ response.score
+   // TODO - multiple history items   
+   // Flash/remove/animate correct letters
+   // Show letters as 'bad' if there was no match (penalty??)
+   // Use/show the replacement letters      
+   // Show running total score (will need to come from server)
+
 }
 
-async function submit(method, url,obj){
+async function submit(method, url,requestBodyObj){
     
     
     let payload=null
 
     if (method=="POST"){
-        payload = JSON.stringify({letters: obj}) // the trick here is to make an object from the formdata
+        payload = JSON.stringify(requestBodyObj) // the trick here is to make an object from the formdata
         console.log ("PL:" + payload)
     }
       
-    
     
     const response = await fetch(url, {method:method,body:payload,headers:{'Accept':'application/json','Content-Type':'application/json'}})
     //const response = await fetch(url, {method:method,headers:{'Accept':'application/json','Content-Type':'application/json'}})
