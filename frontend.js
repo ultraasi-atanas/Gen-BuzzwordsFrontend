@@ -4,8 +4,8 @@ let bigHex = document.getElementById('bigHex')
 
 function add_img() {
 
-	let topEdge = 5
-	let stop = 8
+	let topEdge = 3
+	let stop = 6
 	
 	for (let r = topEdge; r <= stop; r++) {
 		
