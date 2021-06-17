@@ -31,25 +31,20 @@ function buildRow(cols) {
 	}
 	return row
 }
-
-
-
 add_img()
 
 let images = document.getElementsByTagName("img")[0];
 
-
 function attributes() {
-
 	for (let i = 0; i <= images; i++) {
 		images.setAttribute("id", counter++)
 
 	}
 }
 
+attributes()
 
 let counter = 0
-
 let test = document.getElementById('test')
 
 
