@@ -43,6 +43,7 @@ const cellClick = cell => {
         // Change background color of the clicked cell
         //cell.style.backgroundColor = 'peru';
         cell.classList.add("used")
+       
         word = word + cell.innerHTML
         letters[cell.id] =cell.innerHTML
         selectedTiles.push(cell)
@@ -52,6 +53,16 @@ const cellClick = cell => {
     }
 }
 
+function clearCell(){
+    cells.forEach(c => {
+        c.classList.remove("used")
+        c.classList.remove("good")
+        c.classList.remove("bad")
+
+    })
+
+}
+
 async function submitWord() {
    let response = await submit('POST', 'http://localhost:3000/api/dict' ,{"letters":letters})
    console.log(response)
@@ -59,15 +70,11 @@ async function submitWord() {
    let words=document.createElement("p") 
    words.innerHTML=`${response.word} ${response.score}`
    history.appendChild(words)
-   
+
    //const cells = document.querySelectorAll('.cell');
   //alert(cells.length);
-  cells.forEach(c => {
-    c.classList.remove("used")
-    c.classList.remove("good")
-    c.classList.remove("bad")
 
-  })
+  clearCell()
 
    if (response.match){
     selectedTiles.forEach(t=>{
@@ -81,8 +88,14 @@ async function submitWord() {
     }
     letters={}
     selectedTiles=[]
-   
-
+    usedCells =[]
+    currentWord.innerHTML = ""
+   // we receive new letters as part of the response: refill the used letters
+   console.log(response.letters)
+   for(let k in response.letters){
+       let tile =document.getElementById(k) 
+       tile.innerHTML = response.letters[k]
+   }
    //(textcontent appendChild)
    
    // TODO - multiple history items   
