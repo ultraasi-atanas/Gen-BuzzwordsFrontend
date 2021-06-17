@@ -6,6 +6,8 @@ let usedCells = [];
 
 let word = '';
 let letters = {}
+let selectedTiles = []
+
 const currentWord = document.getElementById('word');
 
 const cells = document.querySelectorAll('.cell');
@@ -39,9 +41,11 @@ const cellClick = cell => {
         usedCells.push(cell.id)
         console.log('Allowed cells (If not used) - ' + allowedCells)
         // Change background color of the clicked cell
-        cell.style.backgroundColor = 'peru';
+        //cell.style.backgroundColor = 'peru';
+        cell.classList.add("used")
         word = word + cell.innerHTML
         letters[cell.id] =cell.innerHTML
+        selectedTiles.push(cell)
         currentWord.innerHTML = word
     } else {
         alert('Not allowed')
@@ -51,7 +55,36 @@ const cellClick = cell => {
 async function submitWord() {
    let response = await submit('POST', 'http://localhost:3000/api/dict' ,{"letters":letters})
    console.log(response)
-   document.getElementById("wordHistory").innerHTML= response.word +" "+ response.score
+   const history=document.getElementById("wordHistory")
+   let words=document.createElement("p") 
+   words.innerHTML=`${response.word} ${response.score}`
+   history.appendChild(words)
+   
+   //const cells = document.querySelectorAll('.cell');
+  //alert(cells.length);
+  cells.forEach(c => {
+    c.classList.remove("used")
+    c.classList.remove("good")
+    c.classList.remove("bad")
+
+  })
+
+   if (response.match){
+    selectedTiles.forEach(t=>{
+        t.classList.add("good")
+        })
+    }
+   else {
+    selectedTiles.forEach(t=>{
+        t.classList.add("bad")
+        })
+    }
+    letters={}
+    selectedTiles=[]
+   
+
+   //(textcontent appendChild)
+   
    // TODO - multiple history items   
    // Flash/remove/animate correct letters
    // Show letters as 'bad' if there was no match (penalty??)
