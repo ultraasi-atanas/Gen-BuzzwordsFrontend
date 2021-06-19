@@ -4,7 +4,7 @@ let allowedCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9'];
 
 let usedCells = [];
 
-let word = '';
+let word = ''
 let letters = {}
 let selectedTiles = []
 
@@ -90,8 +90,8 @@ async function submitWord() {
     selectedTiles = []
     allowedCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9'];
     usedCells = []
-    word = '';
-    currentWord.innerHTML = ""
+    word = ''
+    currentWord.innerHTML = ''
 
     // we receive new letters as part of the response: refill the used letters
     console.log(response.letters)
