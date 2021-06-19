@@ -2,12 +2,13 @@ TEST BACKUP
 
 <!-- <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuzzWord</title>
-    <script src= './script.js' defer></script>
+    <script src='./script.js' defer></script>
     <style>
         .cell {
             background-color: aqua;
@@ -15,34 +16,46 @@ TEST BACKUP
             height: 60px;
             margin: 5px;
         }
+
         .wordHistory {
-            position: ;
+            position: absolute;
         }
+
+        .good {
+            background-color: green;
+        }
+
+        .bad {
+            background-color: red;
+        }
+
+        .used {
+            background-color: peru;
+        }       
     </style>
 </head>
+
 <body>
     <div id="message"></div>
-    <div style= 'display: flex'>
-        <div class='cell' id = 'c0' data-neighbours = 'c1,c5,c6'>I</div>
-        <div class='cell' id = 'c1' data-neighbours = 'c0,c2,c5,c6,c7'>T</div>
-        <div class='cell' id = 'c2' data-neighbours = 'c1,c3,c6,c7,c8'>A</div>
-        <div class='cell' id = 'c3' data-neighbours = 'c2,c4,c7,c8,c9'>X</div>
-        <div class='cell' id = 'c4' data-neighbours = 'c3,c8,c9'>I</div>
-        
+    <div style='display: flex'>
+        <div class='cell' id='c0' data-neighbours='c1,c5,c6'>I</div>
+        <div class='cell' id='c1' data-neighbours='c0,c2,c5,c6,c7'>T</div>
+        <div class='cell' id='c2' data-neighbours='c1,c3,c6,c7,c8'>A</div>
+        <div class='cell' id='c3' data-neighbours='c2,c4,c7,c8,c9'>X</div>
+        <div class='cell' id='c4' data-neighbours='c3,c8,c9'>I</div>
     </div>
 
-    <div style= 'display: flex'>
-        <div class='cell' id = 'c5' data-neighbours = 'c0,c1,c6'>I</div>
-        <div class='cell' id = 'c6' data-neighbours = 'c0 c1,c2,c5,c7'>E</div>
-        <div class='cell' id = 'c7' data-neighbours = 'c1,c2,c3,c6,c8'>A</div>
-        <div class='cell' id = 'c8' data-neighbours = 'c2,c3,c4,c7,c9'>N</div>
-        <div class='cell' id = 'c9' data-neighbours = 'c3,c4,c8'>T</div>
-       
+    <div style='display: flex'>
+        <div class='cell' id='c5' data-neighbours='c0,c1,c6'>I</div>
+        <div class='cell' id='c6' data-neighbours='c0,c1,c2,c5,c7'>E</div>
+        <div class='cell' id='c7' data-neighbours='c1,c2,c3,c6,c8'>A</div>
+        <div class='cell' id='c8' data-neighbours='c2,c3,c4,c7,c9'>N</div>
+        <div class='cell' id='c9' data-neighbours='c3,c4,c8'>T</div>
     </div>
-
 
     <div id="word"></div>
     <button onclick="submitWord()">Submit</button>
-    <div id = "wordHistory"></div>
+    <div id="wordHistory"></div>
 </body>
-</html> -->
+
+</html>
