@@ -1,6 +1,6 @@
 'use strict';
 
-let allowedCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9'];
+let allowedCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19'];
 
 let usedCells = [];
 
@@ -14,10 +14,12 @@ const cells = document.querySelectorAll('.cell');
 //alert(cells.length);
 cells.forEach(c => { c.addEventListener('click', () => cellClick(c)) })
 
-fillBoard(10)
+fillBoard(20)
 async function fillBoard(numLetters) {
 
     let board = await submit('GET', `http://localhost:3000/api/rndletters/${numLetters}`)
+
+    //board = 'f,e,e,t,y,f,g,e,t,t'.split(',')
 
     for (let i = 0; i < board.length; i++) {
 
@@ -65,10 +67,11 @@ function clearCell() {
 async function submitWord() {
     let response = await submit('POST', 'http://localhost:3000/api/dict', { "letters": letters })
     console.log(response)
-    const history = document.getElementById("wordHistory")
-    let words = document.createElement("p")
-    words.innerHTML = `${response.word} ${response.score}`
-    history.appendChild(words)
+    const history = document.getElementById("historyHolder")
+    let historyEntry = document.createElement("p")
+    historyEntry.classList.add("wordHistory")
+    historyEntry.innerHTML = `${word} ${response.score}`
+    history.appendChild(historyEntry)
 
     //const cells = document.querySelectorAll('.cell');
     //alert(cells.length);
@@ -88,7 +91,8 @@ async function submitWord() {
 
     letters = {}
     selectedTiles = []
-    allowedCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9'];
+    allowedCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19'];
+
     usedCells = []
     word = ''
     currentWord.innerHTML = ''
