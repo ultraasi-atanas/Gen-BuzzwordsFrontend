@@ -1,0 +1,51 @@
+
+<img 
+src="icons/hexagon.svg" 
+style="width: 30px;" 
+id="2" 
+data-neighbors="1,3,5,6"
+data-rowNr="1"
+data-rowLength="3"
+data-rowPos="2"
+>
+
+// pseudocode notation
+// see presentation on https://www.canva.com/design/DAEh6uQJx80/H41FbI5T_yl7fJgUdAW7kg/edit
+
+let maxId = 30;
+let lastRowNr = 5;
+
+let currentId = 1;
+let currentHex = document.getElementById(currentId);
+let currentRowNr = currentHex.data-rowNr;
+let currentRowLen = currentHex.data-rowLength;
+let currentRowPos = currentHex.rowPos;
+
+check each hex until currentId <= maxId {
+// initialise variables
+let nghbTopLeft, nghbTopRight, nghbLeft, nghbRight, nghbBottomLeft, nghbBottomRight
+
+// check for edgecases
+if currentRowNr     === "1"       { no top neighbors and nghbTopLeft, nghbTopRight = "" }
+if currentRowNr     === lastRowNr { no bottom neighbors and nghbBottomLeft and nghbBottomRight = "" }
+if currentRowPos    === "1"       { no left neighbors and nghbLeft = "" }
+if currentRowPos    === currentRowLen { no right neighbors nghbRight = "" }
+
+// setting neighbor data
+if nghbTopLeft      !== "" { nghbTopLeft = currentId - currentRowLen }
+if nghbTopRight     !== "" { nghbTopRight = currentId - currentRowLen + 1 }
+if nghbLeft         !== "" { nghbLeft = currentId - 1 }
+if nghbRight        !== "" { nghbRight = currentId + 1 }
+if nghbBottomLeft   !== "" { nghbBottomLeft = currentId + currentRowLen }
+if nghbBottomRight  !== "" { nghbBottomRight = currentId + currentRowLen + 1 }
+
+// store all neighbor data as one long string
+currentHex.setAttribute("data-neighbors", `${nghbTopLeft},${nghbTopRight},${nghbLeft},${nghbRight},${nghbBottomLeft},${nghbBottomRight}`)
+
+// "move" from currentHex to the next Hex
+currentId = currentId + 1;
+currentHex = document.getElementById(currentId);
+currentRowNr = currentHex.data-rowNr;
+currentRowLen = currentHex.data-rowLength;
+currentRowPos = currentHex.rowPos;
+}
