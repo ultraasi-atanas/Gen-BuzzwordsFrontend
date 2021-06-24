@@ -2,33 +2,35 @@
 
 let bigHex = document.getElementById('bigHex')
 
+
+
 function makeGrid() {
 	let topEdge = 3
 	let stop = 6
 	let startNum = 0
-	let columns = 0
 	
-	for (let cols = topEdge; cols <= stop; cols++) {
-
-		bigHex.appendChild(buildRow(cols,startNum))       
-		startNum += cols
-		columns++
-		console.log(columns)
+	//top section
+	for (let cols = topEdge; cols < stop; cols++) {
+		bigHex.appendChild(buildRow(cols,startNum,"top",(cols==topEdge),false))       
+		startNum += cols		
 	}
-	for (let cols = stop - 1; cols >= topEdge; cols--) {
 
-		bigHex.appendChild(buildRow(cols,startNum))
+	//middle row	
+	bigHex.appendChild(buildRow(stop,startNum,"middle",false,false))       
+	startNum += stop		
+	
+	//bottom section
+	for (let cols = stop - 1; cols >= topEdge; cols--) {
+		bigHex.appendChild(buildRow(cols,startNum,"bottom",false,(cols==topEdge)))
 		startNum += cols
 	}
 
 }
 //build a single attritube that contains all the data data-neighbours="7,11,4"
-function buildRow(cols,startNum) {
+function buildRow(cols,startNum,section,isTopEdge,isBottomEdge) {
 	
 	let row = document.createElement('div')
 	
-
-
 	// for (let c = cols; c > 0; c--) 
 	for (let c = 0; c < cols; c++) {
 		var img = document.createElement('img');
@@ -48,9 +50,34 @@ function buildRow(cols,startNum) {
 		if (c < cols-1){
 			n.push(id+1)
 		} 
-		if (cols ==3){
-			n.push(id-4)
+
+		//deal with diagonal neighbours
+
+		let isFirstColumn = (c==0)
+		let isLastColumn = (c==cols-1)
+
+		if (section=='top'){
+			n.push(id+cols)   //Below left
+			n.push(id+cols+1)  //below Right
+			if (!isFirstColumn && !isTopEdge){
+				n.push(id-cols) //Above left
+			}
+			if(!isLastColumn && !isTopEdge){
+				n.push(id-cols+1 ) //Above right
+			}
 		}
+
+		else if (section =='middle'){
+
+
+		}
+
+		else if (section =='bottom'){
+
+
+		}
+
+
 		img.setAttribute("data-neighbours", n.join(","))
 		row.appendChild(img);
 
