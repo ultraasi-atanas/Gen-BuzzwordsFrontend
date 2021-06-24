@@ -26,7 +26,6 @@ async function fillBoard(numLetters) {
         let id = 'c' + i
         let tile = document.getElementById(id)
         tile.innerHTML = board[i] // set tile innerhtml to each letter from the board array
-
     }
 }
 

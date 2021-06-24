@@ -5,13 +5,13 @@ let bigHex = document.getElementById('bigHex')
 
 
 function makeGrid() {
-	let topEdge = 3
+	let edgeWidth = 3
 	let stop = 6
 	let startNum = 0
 	
 	//top section
-	for (let cols = topEdge; cols < stop; cols++) {
-		bigHex.appendChild(buildRow(cols,startNum,"top",(cols==topEdge),false))       
+	for (let cols = edgeWidth; cols < stop; cols++) {
+		bigHex.appendChild(buildRow(cols,startNum,"top",(cols==edgeWidth),false))       
 		startNum += cols		
 	}
 
@@ -19,9 +19,9 @@ function makeGrid() {
 	bigHex.appendChild(buildRow(stop,startNum,"middle",false,false))       
 	startNum += stop		
 	
-	//bottom section
-	for (let cols = stop - 1; cols >= topEdge; cols--) {
-		bigHex.appendChild(buildRow(cols,startNum,"bottom",false,(cols==topEdge)))
+	
+	for (let cols = stop - 1; cols >= edgeWidth; cols--) {
+		bigHex.appendChild(buildRow(cols,startNum,"bottom",false,(cols==edgeWidth)))
 		startNum += cols
 	}
 
