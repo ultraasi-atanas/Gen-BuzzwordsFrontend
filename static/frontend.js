@@ -3,7 +3,6 @@
 let bigHex = document.getElementById('bigHex')
 
 
-
 function makeGrid() {
 	let edgeWidth = 3
 	let stop = 6

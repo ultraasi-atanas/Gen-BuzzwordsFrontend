@@ -1,25 +1,45 @@
 'use strict';
 
-let allowedCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19'];
+let allCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19'];
 
-let usedCells = [];
-
+let allowedCells = allCells
+let usedCells = []
 let word = ''
 let letters = {}
 let selectedTiles = []
+let cellNo = allCells.length
 
 const currentWord = document.getElementById('word');
-
 const cells = document.querySelectorAll('.cell');
-//alert(cells.length);
 cells.forEach(c => { c.addEventListener('click', () => cellClick(c)) })
 
-fillBoard(20)
+fillBoard(cellNo)
+
+async function getGames() {
+
+    let games = await submit('GET', `http://localhost:3000/api/listOpenGames`)
+    
+}
+
+async function signUp() {
+    let user = getElementById('userName') 
+    let password = getElementById('password') 
+    let userinfo = {username: user, password: password} 
+    let result = await submit('POST', `http://localhost:3000/api/join/`, userinfo)    
+    console.log(result)
+}
+
+async function signIn() {
+    let user = getElementById('si_userName') 
+    let password = getElementById('si_password') 
+    let userinfo = {username: user, password: password} 
+    let result = await submit('POST', `http://localhost:3000/api/login/`, userinfo)    
+    console.log(result)
+}
+
 async function fillBoard(numLetters) {
 
     let board = await submit('GET', `http://localhost:3000/api/rndletters/${numLetters}`)
-
-    //board = 'f,e,e,t,y,f,g,e,t,t'.split(',')
 
     for (let i = 0; i < board.length; i++) {
 
@@ -28,10 +48,6 @@ async function fillBoard(numLetters) {
         tile.innerHTML = board[i] // set tile innerhtml to each letter from the board array
     }
 }
-
-//function cellClick (c) {
-//    alert('click ' + c.id); 
-//}
 
 const cellClick = cell => {
     // Check if allowedCells array includes the clicked cell and that it hasn't been clicked already
@@ -42,10 +58,9 @@ const cellClick = cell => {
         usedCells.push(cell.id)
         console.log('Allowed cells (If not used) - ' + allowedCells)
         // Change background color of the clicked cell
-        //cell.style.backgroundColor = 'peru';
-        cell.classList.add("used")
-        word = word + cell.innerHTML
-        letters[cell.id] = cell.innerHTML
+        cell.classList.add("used") 
+        word = word + cell.innerHTML //Add letter that is chosen to word variable
+        letters[cell.id] = cell.innerHTML //push to backend
         selectedTiles.push(cell)
         currentWord.innerHTML = word
     } else {
@@ -58,9 +73,7 @@ function clearCell() {
         c.classList.remove("used")
         c.classList.remove("good")
         c.classList.remove("bad")
-
     })
-
 }
 
 async function submitWord() {
@@ -72,9 +85,6 @@ async function submitWord() {
     historyEntry.innerHTML = `${word} ${response.score}`
     history.appendChild(historyEntry)
 
-    //const cells = document.querySelectorAll('.cell');
-    //alert(cells.length);
-
     clearCell()
 
     if (response.match) {
@@ -84,13 +94,13 @@ async function submitWord() {
     }
     else {
         selectedTiles.forEach(t => {
-            t.classList.add("bad")
+            t.classList.add("bad")     // Show letters as 'bad' if there was no match (penalty??)
         })
     }
 
     letters = {}
     selectedTiles = []
-    allowedCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19'];
+    allowedCells = allCells
 
     usedCells = []
     word = ''
@@ -102,17 +112,24 @@ async function submitWord() {
         let tile = document.getElementById(k)
         tile.innerHTML = response.letters[k]
     }
-    //(textcontent appendChild)
-
     // TODO - multiple history items   
     // Flash/remove/animate correct letters
-    // Show letters as 'bad' if there was no match (penalty??)
     // Use/show the replacement letters      
     // Show running total score (will need to come from server)
-
 }
 
 async function submit(method, url, requestBodyObj) {
+
+    // const response = await fetch("http://localhost:3000/login", {
+    //     method: "POST",
+    //     credentials: "same-origin",
+    //     body: JSON.stringify({ username: body[0], password: body[1] }),
+    //     headers: {
+    //       "Access-Control-Allow-Origin": "*",
+    //       "Access-Control-Allow-Headers": "*",
+    //       "Content-Type": "application/json",
+    //     },
+    //   });
 
 
     let payload = null
@@ -122,22 +139,18 @@ async function submit(method, url, requestBodyObj) {
         console.log("PL:" + payload)
     }
 
-
-    const response = await fetch(url, { method: method, body: payload, headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } })
-    //const response = await fetch(url, {method:method,headers:{'Accept':'application/json','Content-Type':'application/json'}})
+    const response = await fetch(url, { method: method, body: payload, credentials: "same-origin",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'} })
 
     if (response.ok) {
         const promise = await response.json()
         //console.log(obj[0].word + obj[0].meanings[0].definitions[0].definition)       
         return (promise)
-
         // Do something with the object we just receved
-
     }
     else {
         //something bad happened
         document.getElementById("message").innerHTML = + response.status
         setTimeout(() => { document.getElementById("message").innerHTML = "" }, 1000)
-
     }
+
 }
