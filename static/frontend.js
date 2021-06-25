@@ -110,8 +110,6 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		//option 3
 		n = n.map(i=> 'C'+i)
 		
-		
-
 		img.setAttribute("data-neighbours", n.join( ","))
 		
 		row.appendChild(img);
