@@ -3,8 +3,8 @@
 let bigHex = document.getElementById('bigHex')
 
 function makeGrid() {
-	let edgeWidth = 3
-	let stop = 6
+	let edgeWidth = 4
+	let stop = 8
 	let startNum = 0
 
 	//top section
@@ -37,7 +37,6 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		//empty array to hold the neighbours
 		let n = []
 
-
 		if (c != 0) {
 			// img.setAttribute("data-left",id -1)  // wil be ID number ...do we get rid of code that makes it
 			n.push(id - 1)
@@ -65,7 +64,7 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		}
 
 		else if (section == 'middle') {
-			//n.push(id + cols)
+
 
 			if (!isFirstColumn && !isTopEdge) {
 				n.push(id - cols) //Above Left
@@ -99,9 +98,22 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 			}
 
 		}
+		//ADD STRING C TO DATA-NEIGHBOURS
+		// option 1
+		// for(let i=0;i<n.length;i++){
+		// 	n[i]="C"+n[i];
+		// }
+		//option 2
+		// n.forEach(function(element, index) {
+		// 	n[index] = 'C' + element;
+		// });
+		//option 3
+		n = n.map(i=> 'C'+i)
+		
+		
 
-		img.setAttribute("data-neighbours", n.join(","))
-
+		img.setAttribute("data-neighbours", n.join( ","))
+		
 		row.appendChild(img);
 
 	}
