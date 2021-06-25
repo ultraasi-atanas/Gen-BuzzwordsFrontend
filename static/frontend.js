@@ -2,7 +2,6 @@
 
 let bigHex = document.getElementById('bigHex')
 
-
 function makeGrid() {
 	let edgeWidth = 3
 	let stop = 6
@@ -18,12 +17,10 @@ function makeGrid() {
 	bigHex.appendChild(buildRow(stop, startNum, "middle", false, false))
 	startNum += stop
 
-
 	for (let cols = stop - 1; cols >= edgeWidth; cols--) {
 		bigHex.appendChild(buildRow(cols, startNum, "bottom", false, (cols == edgeWidth)))
 		startNum += cols
 	}
-
 }
 //build a single attritube that contains all the data data-neighbours="7,11,4"
 function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
@@ -68,37 +65,44 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		}
 
 		else if (section == 'middle') {
-			n.push(id + cols)
+			//n.push(id + cols)
+
 			if (!isFirstColumn && !isTopEdge) {
 				n.push(id - cols) //Above Left
+
 			}
 			if (!isLastColumn && !isTopEdge) {
 				n.push(id - cols + 1) //Above right
-			}
 
-			if (isFirstColumn && isTopEdge) {
-				n.push(id - cols) //Above Left
+			}
+			if (!isFirstColumn && !isTopEdge) {
+				n.push(id + cols - 1) //Below Left
+
 			}
 			if (!isLastColumn && !isTopEdge) {
-				n.push(id + cols - 1) //Above right
+				n.push(id + cols) //Below right
 			}
-
 
 		}
 
 		else if (section == 'bottom') {
-			n.push(id - cols)   //Above left
-			n.push(id - cols - 1)  //Above Right
+
+			n.push(id - cols)   //Below left
+			n.push(id - cols - 1)  //below Right
+
+			if (!isLastColumn && !isBottomEdge) {
+				n.push(id + cols) //Below right
+			}
+			if (!isFirstColumn && !isBottomEdge) {
+
+				n.push(id + cols - 1) //Above right
+			}
 
 		}
-
 
 		img.setAttribute("data-neighbours", n.join(","))
-		row.appendChild(img);
 
-		for (var i = 0; i < n.length; i++) {
-			n[i] += "c";
-		}
+		row.appendChild(img);
 
 	}
 	return row
@@ -107,36 +111,11 @@ makeGrid()
 
 let images = document.getElementsByTagName("img")[0];
 
-// function attributes() {
-// 	for (let i = 0; i <= images; i++) {
-
-
-// 	}
-// }
-
 // attributes()
-
-// let counter = 0
-// let test = document.getElementById('test')
-
 
 let imgs = document.getElementsByTagName('img');  //To the look will give them each an IDThis is to give each hex an ID using IMG //seperate funtion.This will always give any element an ID regardless of its use.
 for (let i = 0, length = imgs.length; i < length; i++) {
 	imgs[i].setAttribute("id", i);
 }
-
-// let tl 
-// let tr
-// let r
-// let l
-// let bl
-// let br
-// let n = id
-// let c 	
-// let col = colum loop  counter ++
-// let hex 
-
-// function neighbours (id,c){
-
 
 
