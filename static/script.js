@@ -22,18 +22,18 @@ async function getGames() {
 }
 
 async function signUp() {
-    let user = getElementById('userName') 
-    let password = getElementById('password') 
-    let userinfo = {username: user, password: password} 
+    let user = document.getElementById('userName') 
+    let password = document.getElementById('password') 
+    let userinfo = {username: user.value, password: password.value} 
     let result = await submit('POST', `http://localhost:3000/api/join/`, userinfo)    
     console.log(result)
 }
 
 async function signIn() {
-    let user = getElementById('si_userName') 
-    let password = getElementById('si_password') 
-    let userinfo = {username: user, password: password} 
-    let result = await submit('POST', `http://localhost:3000/api/login/`, userinfo)    
+    let user = document.getElementById('si_userName') 
+    let password = document.getElementById('si_password') 
+    let userinfo = {username: user.value, password: password.value} 
+    let result = await submit('POST', `http://localhost:3000/login/`, userinfo)    
     console.log(result)
 }
 

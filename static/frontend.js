@@ -30,7 +30,7 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 	// for (let c = cols; c > 0; c--) 
 	for (let c = 0; c < cols; c++) {
 		var img = document.createElement('img');
-		img.src = 'icons/hexagon.svg'
+		img.src = './static/icons/hexagon.svg'
 		img.style.width = "30px"
 		let id = c + startNum
 		img.setAttribute("id", id)
