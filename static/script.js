@@ -7,13 +7,13 @@ let usedCells = []
 let word = ''
 let letters = {}
 let selectedTiles = []
-let cellNo = allCells.length
+let cellCount = allCells.length
 
 const currentWord = document.getElementById('word');
 const cells = document.querySelectorAll('.cell');
 cells.forEach(c => { c.addEventListener('click', () => cellClick(c)) })
 
-fillBoard(cellNo)
+fillBoard(cellCount)
 
 async function getGames() {
 
@@ -43,9 +43,9 @@ async function fillBoard(numLetters) {
 
     for (let i = 0; i < board.length; i++) {
 
-        let id = 'c' + i
+        let id = 'c' + i        
         let tile = document.getElementById(id)
-        tile.innerHTML = board[i] // set tile innerhtml to each letter from the board array
+        tile.innerHTML += board[i] // set tile innerhtml to each letter from the board array
     }
 }
 
