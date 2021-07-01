@@ -73,7 +73,10 @@ const cellClick = cell => {
         selectedTiles.push(cell)
         currentWord.innerHTML = word
     } else {
-        alert('Not allowed')
+      //  alert('Not allowed')
+
+      cell.classList.add('bad')
+
     }
 }
 
@@ -107,18 +110,13 @@ async function submitWord() {
         })
     }
 
-    letters = {}
-    selectedTiles = []
-    allowedCells = allCells
-
-    usedCells = []
-    word = ''
-    currentWord.innerHTML = ''
+    resetLetters()
 
     // we receive new letters as part of the response: refill the used letters
     console.log(response.letters)
     for (let k in response.letters) {
-        let tile = document.getElementById(k)
+        let lid = k.replace('c', 'l')
+        let tile = document.getElementById(lid)
         tile.innerHTML = response.letters[k]
     }
     // TODO - multiple history items   
@@ -162,4 +160,22 @@ async function submit(method, url, requestBodyObj) {
         setTimeout(() => { document.getElementById("message").innerHTML = "" }, 1000)
     }
 
+}
+
+
+
+function resetLetters(){
+    letters = {}
+    selectedTiles = []
+    allowedCells = allCells
+
+    usedCells = []
+    word = ''
+    currentWord.innerHTML = ''
+    clearCell()
+}
+
+function resetWord(){
+    resetLetters()
+    
 }
