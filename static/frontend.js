@@ -41,10 +41,10 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		cellDiv.classList.add("cellDiv")
 		row.appendChild(cellDiv);
 		
-		var img = document.createElement('img');
-		img.src = './static/icons/hexagon.svg'
-		img.classList.add("cellImage")		
-		cellDiv.appendChild(img);
+		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		svg.src = './static/icons/hexagon.svg'
+		svg.classList.add("cellImage")		
+		cellDiv.appendChild(svg);
 
 		let letter = document.createElement("label")
 		letter.setAttribute("id","l" + id)

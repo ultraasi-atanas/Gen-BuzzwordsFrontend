@@ -14,3 +14,10 @@
   position:relative;
   top:-35px;
 }
+.svgHex{
+  fill: red !important;
+  stroke: blue;
+}
+svg{
+  fill: gold
+}
