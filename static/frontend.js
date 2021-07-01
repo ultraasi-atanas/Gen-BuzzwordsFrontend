@@ -33,14 +33,25 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 
 	// for (let c = cols; c > 0; c--) 
 	for (let c = 0; c < cols; c++) {
-		var cellDiv=document.createElement('div') //make a div to contain each image
+		
+		let id = c + startNum
+
+		var cellDiv=document.createElement('div') //make a div to contain each image and letter
+		cellDiv.setAttribute("id", 'c' + id)
+		cellDiv.classList.add("cellDiv")
+		row.appendChild(cellDiv);
+		
 		var img = document.createElement('img');
 		img.src = './static/icons/hexagon.svg'
-		img.style.width = "30px"
-	
-		let id = c + startNum
-		//img.setAttribute("id", 'c' + id)
-		cellDiv.setAttribute("id", 'c' + id)
+		img.classList.add("cellImage")		
+		cellDiv.appendChild(img);
+
+		let letter = document.createElement("label")
+		letter.setAttribute("id","l" + id)
+		
+		letter.classList.add("cellLetter")
+		cellDiv.appendChild(letter)
+
 		//empty array to hold the neighbours
 		let n = []
 
@@ -117,13 +128,10 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		//option 3
 		n = n.map(i=> 'c'+i)
 		
-		img.setAttribute("data-neighbours", n.join( ","))
+		cellDiv.setAttribute("data-neighbours", n.join( ","))
 		
-		//row.appendChild(img);
-		row.appendChild(cellDiv);
-		cellDiv.appendChild(img);
 		
-
+		
 	}
 	return row
 }
