@@ -6,7 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuzzWord</title>
-    <script src='./static/script.js' defer></script>
+
+    <script src="./static/frontend.js" defer></script> <!-- makes the board-->
+    <script src='./static/script.js' defer></script>  <!-- fills the board (amongst other things)-->
+    <link rel="stylesheet" href="./static/style.css">
+
     <style>
         .cell {
             background-color: aqua;
@@ -86,41 +90,17 @@
     </div>  
     <div id="games"><button id="getGames" onclick="getGames()">Show Games</button></div>
     <div id="message"></div>
-    <div style='display: flex'>
-        <div class='cell' id='c0' data-neighbours='c1,c5,c6'>I</div>
-        <div class='cell' id='c1' data-neighbours='c0,c2,c5,c6,c7'>T</div>
-        <div class='cell' id='c2' data-neighbours='c1,c3,c6,c7,c8'>A</div>
-        <div class='cell' id='c3' data-neighbours='c2,c4,c7,c8,c9'>X</div>
-        <div class='cell' id='c4' data-neighbours='c3,c8,c9'>I</div>
-    </div>
 
-    <div style='display: flex'>
-        <div class='cell' id='c5' data-neighbours='c0,c1,c6,c10,c11'>I</div>
-        <div class='cell' id='c6' data-neighbours='c0,c1,c2,c5,c7,c10,c11,c12'>E</div>
-        <div class='cell' id='c7' data-neighbours='c1,c2,c3,c6,c8,c11,c12,c13'>A</div>
-        <div class='cell' id='c8' data-neighbours='c2,c3,c4,c7,c9,c12,c13,c14'>N</div>
-        <div class='cell' id='c9' data-neighbours='c3,c4,c8,c13,c14'>T</div>
-    </div>
+    
+    <section id='bigHex'>
+    </section>
 
-    <div style='display: flex'>
-        <div class='cell' id='c10' data-neighbours='c5,c6,c11,c15,c16'>I</div>
-        <div class='cell' id='c11' data-neighbours='c5,c6,c7,c10,c12,c15,c16,c17'>E</div>
-        <div class='cell' id='c12' data-neighbours='c6,c7,c8,c11,c13,c16,c17,c18'>A</div>
-        <div class='cell' id='c13' data-neighbours='c7,c8,c9,c12,c14,c17,c18,c19'>N</div>
-        <div class='cell' id='c14' data-neighbours='c8,c9,c13,c18,c19'>T</div>
-    </div>
-
-    <div style='display: flex'>
-        <div class='cell' id='c15' data-neighbours='c10,c11,c16'>I</div>
-        <div class='cell' id='c16' data-neighbours='c10,c11,c12,c15,c17'>E</div>
-        <div class='cell' id='c17' data-neighbours='c11,c12,c13,c16,c18'>A</div>
-        <div class='cell' id='c18' data-neighbours='c12,c13,c14,c17,c19'>N</div>
-        <div class='cell' id='c19' data-neighbours='c13,c14,c18'>T</div>
-    </div>
-
+   
+    <div style='position:relative;z-index:10'>
     <div id="word"></div>
     <button onclick="submitWord()">Submit</button>
     <div id="historyHolder"></div>
+    </div>
 </body>
 
 </html>

@@ -1,19 +1,26 @@
 'use strict';
 
-let allCells = ['c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19'];
+
+let cellCount = 52 //100 - we need a formula for this from the edge length really
+
+let allCells = [] //'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19'];
+for (let i=0;i<cellCount;i++){
+    allCells.push('c'+i)
+}
+
 
 let allowedCells = allCells
 let usedCells = []
 let word = ''
 let letters = {}
 let selectedTiles = []
-let cellNo = allCells.length
+
 
 const currentWord = document.getElementById('word');
-const cells = document.querySelectorAll('.cell');
-cells.forEach(c => { c.addEventListener('click', () => cellClick(c)) })
+const cells = document.querySelectorAll('.cellDiv');
+cells.forEach(c => { console.log("Hooked" + c.id ); c.addEventListener('click', () => cellClick(c)) })
 
-fillBoard(cellNo)
+fillBoard(cellCount)
 
 async function getGames() {
 
@@ -22,18 +29,18 @@ async function getGames() {
 }
 
 async function signUp() {
-    let user = getElementById('userName') 
-    let password = getElementById('password') 
-    let userinfo = {username: user, password: password} 
+    let user = document.getElementById('userName') 
+    let password = document.getElementById('password') 
+    let userinfo = {username: user.value, password: password.value} 
     let result = await submit('POST', `http://localhost:3000/api/join/`, userinfo)    
     console.log(result)
 }
 
 async function signIn() {
-    let user = getElementById('si_userName') 
-    let password = getElementById('si_password') 
-    let userinfo = {username: user, password: password} 
-    let result = await submit('POST', `http://localhost:3000/api/login/`, userinfo)    
+    let user = document.getElementById('si_userName') 
+    let password = document.getElementById('si_password') 
+    let userinfo = {username: user.value, password: password.value} 
+    let result = await submit('POST', `http://localhost:3000/login/`, userinfo)    
     console.log(result)
 }
 
@@ -43,7 +50,7 @@ async function fillBoard(numLetters) {
 
     for (let i = 0; i < board.length; i++) {
 
-        let id = 'c' + i
+        let id = 'l' + i        
         let tile = document.getElementById(id)
         tile.innerHTML = board[i] // set tile innerhtml to each letter from the board array
     }
@@ -59,8 +66,10 @@ const cellClick = cell => {
         console.log('Allowed cells (If not used) - ' + allowedCells)
         // Change background color of the clicked cell
         cell.classList.add("used") 
-        word = word + cell.innerHTML //Add letter that is chosen to word variable
-        letters[cell.id] = cell.innerHTML //push to backend
+
+        let letter = document.getElementById(cell.id.replace('c','l')) //find the 'l27' (letter) for 'c27'
+        word = word + letter.innerHTML //Add letter that is chosen to word variable
+        letters[cell.id] = letter.innerHTML //push to backend
         selectedTiles.push(cell)
         currentWord.innerHTML = word
     } else {

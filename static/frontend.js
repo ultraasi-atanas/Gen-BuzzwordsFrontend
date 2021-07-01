@@ -26,14 +26,32 @@ function makeGrid() {
 function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 
 	let row = document.createElement('div')
+	row.classList.add("cellHolder")
+	row.style.display="flex"
+	row.style.justifyContent="center"
+	
 
 	// for (let c = cols; c > 0; c--) 
 	for (let c = 0; c < cols; c++) {
-		var img = document.createElement('img');
-		img.src = 'icons/hexagon.svg'
-		img.style.width = "30px"
+		
 		let id = c + startNum
-		img.setAttribute("id", id)
+
+		var cellDiv=document.createElement('div') //make a div to contain each image and letter
+		cellDiv.setAttribute("id", 'c' + id)
+		cellDiv.classList.add("cellDiv")
+		row.appendChild(cellDiv);
+		
+		var img = document.createElement('img');
+		img.src = './static/icons/hexagon.svg'
+		img.classList.add("cellImage")		
+		cellDiv.appendChild(img);
+
+		let letter = document.createElement("label")
+		letter.setAttribute("id","l" + id)
+		
+		letter.classList.add("cellLetter")
+		cellDiv.appendChild(letter)
+
 		//empty array to hold the neighbours
 		let n = []
 
@@ -108,24 +126,25 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		// 	n[index] = 'C' + element;
 		// });
 		//option 3
-		n = n.map(i=> 'C'+i)
+		n = n.map(i=> 'c'+i)
 		
-		img.setAttribute("data-neighbours", n.join( ","))
+		cellDiv.setAttribute("data-neighbours", n.join( ","))
 		
-		row.appendChild(img);
-
+		
+		
 	}
 	return row
 }
 makeGrid()
 
-let images = document.getElementsByTagName("img")[0];
+//let images = document.getElementsByTagName("img")[0];
 
 // attributes()
 
-let imgs = document.getElementsByTagName('img');  //To the look will give them each an IDThis is to give each hex an ID using IMG //seperate funtion.This will always give any element an ID regardless of its use.
-for (let i = 0, length = imgs.length; i < length; i++) {
-	imgs[i].setAttribute("id", i);
-}
+
+// let imgs = document.getElementsByTagName('img');  //To the look will give them each an IDThis is to give each hex an ID using IMG //seperate funtion.This will always give any element an ID regardless of its use.
+// for (let i = 0, length = imgs.length; i < length; i++) {
+// 	imgs[i].setAttribute("id", i);
+// }
 
 
