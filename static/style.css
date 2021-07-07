@@ -1,4 +1,6 @@
 
+
+
  section{
    position: relative;
    text-align: center;
@@ -8,16 +10,74 @@
  .cellDiv{
     width:50px;
     height:40px;    
+    fill:palegreen;
 }
 
 .cellLetter{
   position:relative;
   top:-35px;
 }
-.svgHex{
-  fill: red !important;
-  stroke: blue;
+
+
+
+.cell {
+  background-color: aqua;
+  width: 60px;
+  height: 60px;
+  margin: 5px;
 }
-svg{
-  fill: gold
+
+#historyHolder {
+  color: blue;
+  background-color: grey;
+  width: 25%;
 }
+
+.wordHistory {
+  color: white;
+}
+
+/* The animation code */
+@keyframes fadeGreen {
+  from {
+      /*background-color: green;*/
+      fill:green
+  }
+
+  to {
+      /*background-color: aqua;*/
+      fill:aqua
+  }
+}
+
+/* The element to apply the animation to */
+.good {
+  animation-name: fadeGreen;
+  animation-duration: 2s;  
+}
+
+
+@keyframes fadeRed {
+  from {
+      background-color: red;
+  }
+
+  to {
+      background-color: aqua;
+  }
+}
+
+/* The element to apply the animation to */
+.bad {
+  animation-name: fadeRed;
+  animation-duration: 2s;
+}
+
+.used {
+  /*background-color: peru;*/
+  fill: peru ;
+
+}
+
+
+

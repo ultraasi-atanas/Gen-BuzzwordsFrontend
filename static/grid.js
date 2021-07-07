@@ -41,9 +41,8 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		cellDiv.classList.add("cellDiv")
 		row.appendChild(cellDiv);
 		
-		var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-		svg.src = './static/icons/hexagon.svg'
-		svg.classList.add("cellImage")		
+		//var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+		let svg = oneHexagon()		
 		cellDiv.appendChild(svg);
 
 		let letter = document.createElement("label")
@@ -131,10 +130,22 @@ function buildRow(cols, startNum, section, isTopEdge, isBottomEdge) {
 		cellDiv.setAttribute("data-neighbours", n.join( ","))
 		
 		
-		
 	}
 	return row
 }
+
+function oneHexagon(){
+
+	let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"); //Ugly 'secret sauce' required for making SVG elements (without it - they don't render properly)
+		
+	svg.setAttribute("viewBox", '0 0 451 492')
+	svg.setAttribute("xmlns", 'xmlns="http://www.w3.org/2000/svg')		
+	svg.innerHTML=`<path d="M7.5 132.372L225.992 8.62403L443.5 132.362V358.655L225.992 483.359L7.5 358.645V132.372Z" stroke="#D2D54C" stroke-width="15"/>`
+	
+	return svg
+			
+}
+
 makeGrid()
 
 //let images = document.getElementsByTagName("img")[0];

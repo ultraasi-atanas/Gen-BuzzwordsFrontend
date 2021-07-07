@@ -23,9 +23,7 @@ cells.forEach(c => { console.log("Hooked" + c.id ); c.addEventListener('click', 
 fillBoard(cellCount)
 
 async function getGames() {
-
-    let games = await submit('GET', `http://localhost:3000/api/listOpenGames`)
-    
+    let games = await submit('GET', `http://localhost:3000/api/listOpenGames`)    
 }
 
 async function signUp() {
@@ -146,7 +144,8 @@ async function submit(method, url, requestBodyObj) {
         console.log("PL:" + payload)
     }
 
-    const response = await fetch(url, { method: method, body: payload, credentials: "same-origin",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'} })
+    //const response = await fetch(url, { method: method, body: payload, credentials: "same-origin",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'} })
+    const response = await fetch(url, { method: method, body: payload, credentials: "same-origin",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'} })
 
     if (response.ok) {
         const promise = await response.json()
@@ -172,7 +171,7 @@ function resetLetters(){
     usedCells = []
     word = ''
     currentWord.innerHTML = ''
-    clearCell()
+    clearCell() // breaks the animations
 }
 
 function resetWord(){
