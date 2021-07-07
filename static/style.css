@@ -1,6 +1,3 @@
-
-
-
  section{
    position: relative;
    text-align: center;
@@ -17,9 +14,6 @@
   position:relative;
   top:-35px;
 }
-
-
-
 .cell {
   background-color: aqua;
   width: 60px;
@@ -59,11 +53,11 @@
 
 @keyframes fadeRed {
   from {
-      background-color: red;
+      fill: red;
   }
 
   to {
-      background-color: aqua;
+      fill: aqua;
   }
 }
 
@@ -79,5 +73,10 @@
 
 }
 
+.cellDiv:hover{
+  /* filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg) brightness(104%) contrast(97%); */
+fill: lightblue;
+transform: scale(1.1);
 
+}
 

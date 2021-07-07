@@ -78,7 +78,7 @@ const cellClick = cell => {
     }
 }
 
-function clearCell() {
+function clearCells() {
     cells.forEach(c => {
         c.classList.remove("used")
         c.classList.remove("good")
@@ -95,7 +95,7 @@ async function submitWord() {
     historyEntry.innerHTML = `${word} ${response.score}`
     history.appendChild(historyEntry)
 
-    clearCell()
+    clearCells()
 
     if (response.match) {
         selectedTiles.forEach(t => {
@@ -171,10 +171,10 @@ function resetLetters(){
     usedCells = []
     word = ''
     currentWord.innerHTML = ''
-    clearCell() // breaks the animations
+  // clearCell() // breaks the animations
 }
 
 function resetWord(){
     resetLetters()
-    
+    clearCells()
 }
