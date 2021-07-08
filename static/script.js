@@ -22,21 +22,31 @@ cells.forEach(c => { console.log("Hooked" + c.id ); c.addEventListener('click', 
 
 fillBoard(cellCount)
 
- function getGames() {
-    let state =  submit('GET', `http://localhost:3000/api/state`)
+async function getGames() {
+    let state = await submit('GET', `http://localhost:3000/api/state`)
+    
+
+    let roomList = document.getElementById("roomList")
+    roomList.innerHTML = ""
+    //document.body.appendChild(roomList)
     state.gameRooms.forEach(r => {
         
         let roomButton = document.createElement('button')
-        document.body.appendChild(roomButton)
-        roomButton.innerHTML = r.roomName
-        roomButton.addEventListener('click', changeRoom(r.id))
+        roomList.appendChild(roomButton)
+        let playersList =[]
+        r.players.map(x=>playersList.push(x.name))
+        roomButton.innerHTML = `${r.roomName} ${r.players.length} ${playersList.join(',')}`
+        roomButton.addEventListener('click', ()=>{changeRoom(r.roomId)})
+        //roomButton.addEventListener('click', function(){changeRoom(r.id)})
     })        
 }
 function changeRoom(roomId){
     let roomInfo = {
-        "roomid": roomId,
-        "id":"60d4974c0791a35c6c6970fd"
+        
+        "roomId": roomId
+        //"id":"60d4974c0791a35c6c6970fd"
     }
+    console.log(roomInfo)
     submit('POST', `http://localhost:3000/api/room`, roomInfo)
 
 
@@ -50,7 +60,7 @@ async function signUp() {
     let user = document.getElementById('userName') 
     let password = document.getElementById('password') 
     let userinfo = {username: user.value, password: password.value} 
-    let result = await submit('POST', `http://localhost:3000/api/join/`, userinfo)    
+    let result = await submit('POST', `http://localhost:3000/signup/`, userinfo)    
     console.log(result)
 }
 
