@@ -1,54 +1,86 @@
 'use strict';
 
-
 let cellCount = 52 //100 - we need a formula for this from the edge length really
 
 let allCells = [] //'c0', 'c1', 'c2', 'c3', 'c4', 'c5', 'c6', 'c7', 'c8', 'c9', 'c10', 'c11', 'c12', 'c13', 'c14', 'c15', 'c16', 'c17', 'c18', 'c19'];
-for (let i=0;i<cellCount;i++){
-    allCells.push('c'+i)
+for (let i = 0; i < cellCount; i++) {
+    allCells.push('c' + i)
 }
-
 
 let allowedCells = allCells
 let usedCells = []
 let word = ''
 let letters = {}
 let selectedTiles = []
+let countdown = -1
+let handle
 
+setInterval(getState, 1000)
 
 const currentWord = document.getElementById('word');
+
+
 const cells = document.querySelectorAll('.cellDiv');
-cells.forEach(c => { console.log("Hooked" + c.id ); c.addEventListener('click', () => cellClick(c)) })
+cells.forEach(c => { console.log("Hooked" + c.id); c.addEventListener('click', () => cellClick(c)) })
 
-fillBoard(cellCount)
+// fillBoard(cellCount)
 
-async function getGames() {
+let inRoom = -1
+
+async function getState() {
     let state = await submit('GET', `http://localhost:3000/api/state`)
-    
 
     let roomList = document.getElementById("roomList")
     roomList.innerHTML = ""
     //document.body.appendChild(roomList)
     state.gameRooms.forEach(r => {
-        
+
         let roomButton = document.createElement('button')
         roomList.appendChild(roomButton)
-        let playersList =[]
-        r.players.map(x=>playersList.push(x.name))
+        let playersList = []
+        r.players.map(x => playersList.push(x.name))
         roomButton.innerHTML = `${r.roomName} ${r.players.length} ${playersList.join(',')}`
-        roomButton.addEventListener('click', ()=>{changeRoom(r.roomId)})
+        roomButton.addEventListener('click', () => { joinGame(r.roomId) })
+
+        // r.rounds[0].startingIn
+        // r.rounds[0].letters
+
+        if (inRoom === r.roomId) {
+            // if startingIn != null then fill board with letters, set countdown = startingIn
+            if (r.rounds[0].startingIn != null) {
+                fillBoard(r.rounds[0].letters)
+                countdown = r.rounds[0].startingIn
+                // start counting down
+                handle = setInterval(checkCountdown, 1000)
+            }
+
+            // display the countdown
+            // when we reach 0 reveal the grid
+        }
+
         //roomButton.addEventListener('click', function(){changeRoom(r.id)})
-    })        
+    })
 }
-function changeRoom(roomId){
+
+function checkCountdown() {
+    countdown--
+    if (countdown === 0) {
+        document.getElementById('bigHex').style.display = 'block'
+        clearInterval(handle)
+    }
+}
+
+function joinGame(roomId) {
     let roomInfo = {
-        
+
         "roomId": roomId
         //"id":"60d4974c0791a35c6c6970fd"
     }
+
     console.log(roomInfo)
     submit('POST', `http://localhost:3000/api/room`, roomInfo)
 
+    inRoom = roomId
 
 }
 
@@ -57,30 +89,32 @@ function changeRoom(roomId){
 //     "id":"60d4974c0791a35c6c6970fd"
 // }
 async function signUp() {
-    let user = document.getElementById('userName') 
-    let password = document.getElementById('password') 
-    let userinfo = {username: user.value, password: password.value} 
-    let result = await submit('POST', `http://localhost:3000/signup/`, userinfo)    
+    let user = document.getElementById('userName')
+    let password = document.getElementById('password')
+    let userinfo = { username: user.value, password: password.value }
+    let result = await submit('POST', `http://localhost:3000/signup/`, userinfo)
     console.log(result)
 }
 
 async function signIn() {
-    let user = document.getElementById('si_userName') 
-    let password = document.getElementById('si_password') 
-    let userinfo = {username: user.value, password: password.value} 
-    let result = await submit('POST', `http://localhost:3000/login/`, userinfo)    
+    let user = document.getElementById('si_userName')
+    let password = document.getElementById('si_password')
+    let userinfo = { username: user.value, password: password.value }
+    let result = await submit('POST', `http://localhost:3000/login/`, userinfo)
     console.log(result)
 }
 
-async function fillBoard(numLetters) {
+async function fillBoard(letters) {
 
-    let board = await submit('GET', `http://localhost:3000/api/rndletters/${numLetters}`)
+    // let board = await submit('GET', `http://localhost:3000/api/rndletters/${numLetters}`)
 
-    for (let i = 0; i < board.length; i++) {
+    for (let i = 0; i < letters.length; i++) {
 
-        let id = 'l' + i        
+        let id = 'l' + i
         let tile = document.getElementById(id)
-        tile.innerHTML = board[i] // set tile innerhtml to each letter from the board array
+        if (tile) {
+            tile.innerHTML = letters[i] // set tile innerhtml to each letter from the board array
+        }
     }
 }
 
@@ -93,17 +127,17 @@ const cellClick = cell => {
         usedCells.push(cell.id)
         console.log('Allowed cells (If not used) - ' + allowedCells)
         // Change background color of the clicked cell
-        cell.classList.add("used") 
+        cell.classList.add("used")
 
-        let letter = document.getElementById(cell.id.replace('c','l')) //find the 'l27' (letter) for 'c27'
+        let letter = document.getElementById(cell.id.replace('c', 'l')) //find the 'l27' (letter) for 'c27'
         word = word + letter.innerHTML //Add letter that is chosen to word variable
         letters[cell.id] = letter.innerHTML //push to backend
         selectedTiles.push(cell)
         currentWord.innerHTML = word
     } else {
-      //  alert('Not allowed')
+        //  alert('Not allowed')
 
-      cell.classList.add('bad')
+        cell.classList.add('bad')
 
     }
 }
@@ -175,7 +209,7 @@ async function submit(method, url, requestBodyObj) {
     }
 
     //const response = await fetch(url, { method: method, body: payload, credentials: "same-origin",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'} })
-    const response = await fetch(url, { method: method, body: payload, credentials: "same-origin",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json'} })
+    const response = await fetch(url, { method: method, body: payload, credentials: "same-origin", headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } })
 
     if (response.ok) {
         const promise = await response.json()
@@ -193,7 +227,7 @@ async function submit(method, url, requestBodyObj) {
 
 
 
-function resetLetters(){
+function resetLetters() {
     letters = {}
     selectedTiles = []
     allowedCells = allCells
@@ -201,10 +235,10 @@ function resetLetters(){
     usedCells = []
     word = ''
     currentWord.innerHTML = ''
-  // clearCell() // breaks the animations
+    // clearCell() // breaks the animations
 }
 
-function resetWord(){
+function resetWord() {
     resetLetters()
     clearCells()
 }

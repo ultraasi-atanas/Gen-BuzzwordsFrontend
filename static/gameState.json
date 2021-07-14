@@ -7,95 +7,95 @@
     "gameRooms": [
         {
             "roomName": "GOLDEN",
-            "roomID": 0,
+            "roomId": 0,
             "maxMembers": 4,
             "roundsTotal": 10,
-            "players": [
-                {
-                    "id": "60d4974c0791a35c6c6970fd",
-                    "name": "username",
-                    "score": 0,
-                    "words": [],
-                    "scores": []
-                }
-            ],
+            "roundDuration": 30,
+            "players": [],
             "roomState": 0,
             "rounds": [
                 {
-                    "round": {
-                        "letters": "",
-                        "startingAt": null,
-                        "endingAt": null,
-                        "roundDuration": 30,
-                        "winner": 0,
-                        "word": null
-                    }
+                    "letters": "",
+                    "startingIn": null,
+                    "roundDuration": 30,
+                    "winner": 0,
+                    "word": null,
+                    "finished": false
                 }
             ],
-            "gridSize": 0
+            "gridSize": 127,
+            "playersCount": 0,
+            "currentRound": 1,
+            "hasSpace": true
         },
         {
             "roomName": "SILVER",
-            "roomID": 1,
+            "roomId": 1,
             "maxMembers": 4,
             "roundsTotal": 10,
+            "roundDuration": 45,
             "players": [],
             "roomState": 0,
             "rounds": [
                 {
-                    "round": {
-                        "letters": "",
-                        "startingAt": null,
-                        "endingAt": null,
-                        "roundDuration": 30,
-                        "winner": 0,
-                        "word": null
-                    }
+                    "letters": "",
+                    "startingIn": null,
+                    "roundDuration": 30,
+                    "winner": 0,
+                    "word": null,
+                    "finished": false
                 }
             ],
-            "gridSize": 0
+            "gridSize": 127,
+            "playersCount": 0,
+            "currentRound": 1,
+            "hasSpace": true
         },
         {
             "roomName": "BRONZE",
-            "roomID": 2,
+            "roomId": 2,
             "maxMembers": 4,
             "roundsTotal": 10,
+            "roundDuration": 60,
             "players": [],
             "roomState": 0,
             "rounds": [
                 {
-                    "round": {
-                        "letters": "",
-                        "startingAt": null,
-                        "endingAt": null,
-                        "roundDuration": 30,
-                        "winner": 0,
-                        "word": null
-                    }
+                    "letters": "",
+                    "startingIn": null,
+                    "roundDuration": 30,
+                    "winner": 0,
+                    "word": null,
+                    "finished": false
                 }
             ],
-            "gridSize": 0
+            "gridSize": 127,
+            "playersCount": 0,
+            "currentRound": 1,
+            "hasSpace": true
         },
         {
             "roomName": "SINGLE",
-            "roomID": 3,
+            "roomId": 3,
             "maxMembers": 1,
             "roundsTotal": 10,
+            "roundDuration": 30,
             "players": [],
             "roomState": 0,
             "rounds": [
                 {
-                    
                     "letters": "",
-                    "startingAt": null,
-                    "endingAt": null,
+                    "startingIn": null,
                     "roundDuration": 30,
                     "winner": 0,
-                    "word": null
-                    
+                    "word": null,
+                    "finished": false
                 }
             ],
-            "gridSize": 0
+            "gridSize": 127,
+            "playersCount": 0,
+            "currentRound": 1,
+            "hasSpace": true
         }
     ]
 }
