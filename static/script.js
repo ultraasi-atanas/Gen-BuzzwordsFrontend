@@ -13,26 +13,37 @@ let word = ''
 let letters = {}
 let selectedTiles = []
 let countdown = -1
-let handle
+let handle = 0
+
+let timeLeft = 0
+
+let state = null  //game state object - updated in getState()
 
 setInterval(getState, 1000)
 
 const currentWord = document.getElementById('word');
-
+const countDownLabel= document.getElementById('countDownLabel')
+const infoPanel=document.getElementById('infoPanel')
+//const bigHex = document.getElementById('bigHex')
 
 const cells = document.querySelectorAll('.cellDiv');
-cells.forEach(c => { console.log("Hooked" + c.id); c.addEventListener('click', () => cellClick(c)) })
+cells.forEach(c => {  c.addEventListener('click', () => cellClick(c)) })
 
 // fillBoard(cellCount)
 
 let inRoom = -1
 
 async function getState() {
-    let state = await submit('GET', `http://localhost:3000/api/state`)
+
+    state = await submit('GET', `http://localhost:3000/api/state`)
+
+    if (state==null){return} // do not proceed (exit the function) if there is no response (401 unauthorised etc)
+
+    //console.log(state)
 
     let roomList = document.getElementById("roomList")
     roomList.innerHTML = ""
-    //document.body.appendChild(roomList)
+    //Show the room/game buttons
     state.gameRooms.forEach(r => {
 
         let roomButton = document.createElement('button')
@@ -40,47 +51,78 @@ async function getState() {
         let playersList = []
         r.players.map(x => playersList.push(x.name))
         roomButton.innerHTML = `${r.roomName} ${r.players.length} ${playersList.join(',')}`
-        roomButton.addEventListener('click', () => { joinGame(r.roomId) })
+        roomButton.addEventListener('click', () => { joinGame(r) })    
+                
+        if (inRoom==r.roomId ) {
+            
+            let currentRound=r.rounds[r.currentRoundIndex]
 
-        // r.rounds[0].startingIn
-        // r.rounds[0].letters
+            if (currentRound.startingIn != null && countdown == -1) {
+                
+                console.log(currentRound.letters)
+                fillBoard(currentRound.letters)
 
-        if (inRoom === r.roomId) {
-            // if startingIn != null then fill board with letters, set countdown = startingIn
-            if (r.rounds[0].startingIn != null) {
-                fillBoard(r.rounds[0].letters)
-                countdown = r.rounds[0].startingIn
+                countdown = currentRound.startingIn
+                countDownLabel.innerText=countdown
                 // start counting down
-                handle = setInterval(checkCountdown, 1000)
+                handle = setInterval(checkCountdown, 1000) //handle is a global variable which allows us to cancel the setInterval later
+                // display the countDown Label
+                countDownLabel.style.display="block"
             }
 
-            // display the countdown
-            // when we reach 0 reveal the grid
+            //show the round information
+            infoPanel.innerHTML=`Round:${r.currentRound} remaining:${timeLeft}`
         }
 
-        //roomButton.addEventListener('click', function(){changeRoom(r.id)})
-    })
+    }
+    )          
 }
 
 function checkCountdown() {
     countdown--
     if (countdown === 0) {
-        document.getElementById('bigHex').style.display = 'block'
+        // when we reach 0 reveal the grid
+        bigHex.style.display = 'block'
+        // Hide the countdown
+        countDownLabel.style.display="none"
         clearInterval(handle)
+
+        timeLeft = state.gameRooms[inRoom].roundDuration  //Set the time left to the length of a round
+
+        const timeLeftHandle = setInterval(updateTimeLeft,1000)
+        setTimeout(endRound,15000,timeLeftHandle)  //alternative to anonymouse function
+        //countDown=-1 set countdown to -1 to allow a new countdown
+        
     }
+
+    countDownLabel.innerText=countdown
+
 }
 
-function joinGame(roomId) {
+function endRound(handle){
+
+    clearInterval (handle)
+    document.getElementById('submitReset').hidden=false //Show the submit/reset buttons
+    countdown=-1
+    bigHex.classList.remove('locked')
+
+}
+
+function updateTimeLeft(){
+    timeLeft--
+}
+
+function joinGame(room) {
     let roomInfo = {
 
-        "roomId": roomId
+        "roomId": room.roomId
         //"id":"60d4974c0791a35c6c6970fd"
     }
 
     console.log(roomInfo)
     submit('POST', `http://localhost:3000/api/room`, roomInfo)
 
-    inRoom = roomId
+    inRoom = room.roomId
 
 }
 
@@ -104,9 +146,7 @@ async function signIn() {
     console.log(result)
 }
 
-async function fillBoard(letters) {
-
-    // let board = await submit('GET', `http://localhost:3000/api/rndletters/${numLetters}`)
+function fillBoard(letters) {
 
     for (let i = 0; i < letters.length; i++) {
 
@@ -158,6 +198,9 @@ async function submitWord() {
     historyEntry.classList.add("wordHistory")
     historyEntry.innerHTML = `${word} ${response.score}`
     history.appendChild(historyEntry)
+
+    document.getElementById('submitReset').hidden=true //style.display="none"
+    bigHex.classList.add('locked')
 
     clearCells()
 
@@ -211,7 +254,7 @@ async function submit(method, url, requestBodyObj) {
     //const response = await fetch(url, { method: method, body: payload, credentials: "same-origin",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'} })
     const response = await fetch(url, { method: method, body: payload, credentials: "same-origin", headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } })
 
-    if (response.ok) {
+    if (response) {
         const promise = await response.json()
         //console.log(obj[0].word + obj[0].meanings[0].definitions[0].definition)       
         return (promise)
