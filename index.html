@@ -14,7 +14,7 @@
     
 </head>
 
-<body>
+<body style="background-image:url('./static/background.jpg');background-size:cover">
     <div id="signUp">
         <label>User Name
         <input type="text" id= "userName"></input>
@@ -36,13 +36,16 @@
     <div id ='roomList'></div>
     <!-- <div id="games"></div> -->
     <div id="message"></div>
-    
+    <label id="countDownLabel">10</label>
+    <div id='infoPanel'>Info</div>
     <section id='bigHex' style='display:none'></section>
 
     <div style='position:relative;z-index:10'>
     <div id="word"></div>
-    <button onclick="submitWord()">Submit</button>
-    <button onclick="resetWord()">Reset</button>
+    <div id="submitReset">
+        <button onclick="submitWord()">Submit</button>
+        <button onclick="resetWord()">Reset</button>
+    </div>
     <div id="historyHolder"></div>
     </div>
 </body>

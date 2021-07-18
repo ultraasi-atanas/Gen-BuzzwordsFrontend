@@ -4,6 +4,11 @@
    top: 100px;
  }
 
+ #bigHex{
+   user-select:none
+ }
+
+ 
  .cellDiv{
     width:50px;
     height:40px;    
@@ -80,3 +85,6 @@ transform: scale(1.1);
 
 }
 
+#countDownLabel{ position:relative;z-index:10;color:blue;font-size:100px;display:none} /* initially hidden*/
+
+.locked{pointer-events: none; background-color:gray !important}
