@@ -18,8 +18,12 @@ let handle = 0
 let timeLeft = 0
 
 let state = null  //game state object - updated in getState()
+let roundIndex= -1 //we track the current round to be sure the next round has started
 
 setInterval(getState, 1000)
+
+//Bootstrap the getState() cycle
+//getState()  //getState() will set a new timeout at the end of each call for the next cycle (debugging setInterval based code was extremely confusing)
 
 const currentWord = document.getElementById('word');
 const countDownLabel= document.getElementById('countDownLabel')
@@ -35,31 +39,41 @@ let inRoom = -1
 
 async function getState() {
 
+    
     state = await submit('GET', `http://localhost:3000/api/state`)
 
-    if (state==null){return} // do not proceed (exit the function) if there is no response (401 unauthorised etc)
+    if (state){
 
-    //console.log(state)
+        let roomList = document.getElementById("roomList")
+        roomList.innerHTML = ""
+        infoPanel.innerHTML=''
 
-    let roomList = document.getElementById("roomList")
-    roomList.innerHTML = ""
-    //Show the room/game buttons
-    state.gameRooms.forEach(r => {
+        //Show the room/game buttons
+        let myRoom=null
 
-        let roomButton = document.createElement('button')
-        roomList.appendChild(roomButton)
-        let playersList = []
-        r.players.map(x => playersList.push(x.name))
-        roomButton.innerHTML = `${r.roomName} ${r.players.length} ${playersList.join(',')}`
-        roomButton.addEventListener('click', () => { joinGame(r) })    
+        state.gameRooms.forEach(r => {
+
+            let roomButton = document.createElement('button')
+            roomList.appendChild(roomButton)
+            let playersList = []
+            r.players.map(x => playersList.push(x.name))
+            roomButton.innerHTML = `${r.roomName} ${r.players.length} ${playersList.join(',')}`
+            roomButton.addEventListener('click', () => { joinGame(r) })
+            if (inRoom==r.roomId ) {myRoom=r} //locate and keep a refeence to 'my' room - attempting to debug anything inside the forEach gets *extremely* confusiong
+        }        
+        )    
+       
+        if (myRoom){
+            let currentRound=myRoom.rounds[myRoom.currentRoundIndex] 
+
+            if (currentRound.startingIn != null && countdown == -1 && myRoom.currentRoundIndex != roundIndex) {    
                 
-        if (inRoom==r.roomId ) {
-            
-            let currentRound=r.rounds[r.currentRoundIndex]
+                roundIndex=myRoom.currentRoundIndex
 
-            if (currentRound.startingIn != null && countdown == -1) {
-                
+                console.log("Round:" + myRoom.currentRoundIndex)        
                 console.log(currentRound.letters)
+
+                bigHex.style.display = 'none'   //hide the board during the countdown    
                 fillBoard(currentRound.letters)
 
                 countdown = currentRound.startingIn
@@ -68,14 +82,47 @@ async function getState() {
                 handle = setInterval(checkCountdown, 1000) //handle is a global variable which allows us to cancel the setInterval later
                 // display the countDown Label
                 countDownLabel.style.display="block"
-            }
+            }   
 
             //show the round information
-            infoPanel.innerHTML=`Round:${r.currentRound} remaining:${timeLeft}`
-        }
+            if (myRoom.roomState==0){  //awaiting players
+                infoPanel.innerHTML=`Awaiting players`
+            }
+            else if(myRoom.roomState ==1){ //in play
 
+                if (currentRound.finished){ //@@@ 
+                    if (currentRound.winner==0){
+                        infoPanel.innerHTML=`Nobody won round ${myRoom.currentRoundIndex+1}!`
+                    }
+                    else{
+                        //infoPanel.innerHTML=`${myRoom.players[currentRound.winner].name} Wins the round !`
+                        console.log (currentRound)
+                        infoPanel.innerHTML=`${myRoom.players.filter(p=>p.id==currentRound.winner)[0].name} won round ${myRoom.currentRoundIndex+1} with ${currentRound.word.word}`
+                    }
+                }
+                else{      
+
+                    if (countdown>0){
+                        infoPanel.innerHTML=`Prepare for round:${myRoom.currentRoundIndex+1}`
+                    }
+                    else {
+                        infoPanel.innerHTML=`Round:${myRoom.currentRound} of ${myRoom.roundsTotal} remaining:${timeLeft}`
+                    }
+                }
+            }
+            else if(myRoom.roomState ==2){ //Game finished
+
+                
+                let sorted = myRoom.players.sort((a,b)=>a.score<b.score)
+                infoPanel.innerHTML+=`<p>${sorted[0].name} Wins the GAME !</p><p>Scores were:-</p>`  //where/how to get the winning score ??
+                
+                sorted.forEach(p=>infoPanel.innerHTML += `<p>{p.name} - {p.score}</p>`)
+
+                console.log(state)
+            }
+        }        
     }
-    )          
+    
 }
 
 function checkCountdown() {
@@ -90,7 +137,7 @@ function checkCountdown() {
         timeLeft = state.gameRooms[inRoom].roundDuration  //Set the time left to the length of a round
 
         const timeLeftHandle = setInterval(updateTimeLeft,1000)
-        setTimeout(endRound,15000,timeLeftHandle)  //alternative to anonymouse function
+        setTimeout(endRound,timeLeft*1000,timeLeftHandle)  //alternative to anonymous function
         //countDown=-1 set countdown to -1 to allow a new countdown
         
     }
@@ -105,6 +152,7 @@ function endRound(handle){
     document.getElementById('submitReset').hidden=false //Show the submit/reset buttons
     countdown=-1
     bigHex.classList.remove('locked')
+    clearCells()
 
 }
 
@@ -218,12 +266,15 @@ async function submitWord() {
     resetLetters()
 
     // we receive new letters as part of the response: refill the used letters
-    console.log(response.letters)
-    for (let k in response.letters) {
-        let lid = k.replace('c', 'l')
-        let tile = document.getElementById(lid)
-        tile.innerHTML = response.letters[k]
-    }
+    //obsolete - we now receive a complete new board with each round
+    //console.log(response.letters)
+    //for (let k in response.letters) {
+    //    let lid = k.replace('c', 'l')
+    //    let tile = document.getElementById(lid)
+    //    tile.innerHTML = response.letters[k]
+    //}
+
+
     // TODO - multiple history items   
     // Flash/remove/animate correct letters
     // Use/show the replacement letters      
