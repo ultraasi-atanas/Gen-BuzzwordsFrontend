@@ -104,10 +104,11 @@ transform: scale(1.1);
     /* FOCUSbtn */
     /* sign&submit */
     /* GLOBALbtn */
-    .btnShow{
-      /*display: flex;
-      flex-direction: column;*/
-  }
+    
+    /*.btnShow{
+      display: flex;
+      flex-direction: column;
+  }*/
   button{
       min-width: 75px;
       min-height: 30px;
