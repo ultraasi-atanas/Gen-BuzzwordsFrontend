@@ -66,9 +66,9 @@ async function getState() {
         if (myRoom){
             let currentRound=myRoom.rounds[myRoom.currentRoundIndex] 
 
-            if (currentRound.startingIn != null && countdown == -1 && myRoom.currentRoundIndex != roundIndex) {    
+            if (currentRound.startingIn != null && countdown == -1 && myRoom.currentRoundIndex != roundIndex) {    //has the game moved to the next round?
                 
-                roundIndex=myRoom.currentRoundIndex
+                roundIndex=myRoom.currentRoundIndex 
 
                 console.log("Round:" + myRoom.currentRoundIndex)        
                 console.log(currentRound.letters)
@@ -96,12 +96,11 @@ async function getState() {
                         infoPanel.innerHTML=`Nobody won round ${myRoom.currentRoundIndex+1}!`
                     }
                     else{
-                        //infoPanel.innerHTML=`${myRoom.players[currentRound.winner].name} Wins the round !`
-                        console.log (currentRound)
+                        //infoPanel.innerHTML=`${myRoom.players[currentRound.winner].name} Wins the round !`                        
                         infoPanel.innerHTML=`${myRoom.players.filter(p=>p.id==currentRound.winner)[0].name} won round ${myRoom.currentRoundIndex+1} with ${currentRound.word.word}`
                     }
                 }
-                else{      
+                else{      //the round is still in progress
 
                     if (countdown>0){
                         infoPanel.innerHTML=`Prepare for round:${myRoom.currentRoundIndex+1}`
@@ -113,7 +112,6 @@ async function getState() {
             }
             else if(myRoom.roomState ==2){ //Game finished
 
-                
                 let sorted = myRoom.players.sort((a,b)=>a.score<b.score)
                 infoPanel.innerHTML+=`<p>${sorted[0].name} Wins the GAME !</p><p>Scores were:-</p>`  //where/how to get the winning score ??
                 
