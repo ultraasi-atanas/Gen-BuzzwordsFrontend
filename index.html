@@ -6,7 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BuzzWord</title>
-
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap" rel="stylesheet">
     <script src="./static/grid.js" defer></script> <!-- makes the board-->
     <script src='./static/script.js' defer></script>  <!-- fills the board (amongst other things)-->
     <link rel="stylesheet" href="./static/style.css">
@@ -20,7 +22,7 @@
         <label>Password
         <input type="password" id= "password"></input>
         </label>
-        <button onclick="signUp()">Sign Up</button>
+        <button class='btnSignUp btnMenu' onclick="signUp()">Sign Up</button>
     </div>    
     <div id="signIn">
         <label>User Name
@@ -29,23 +31,23 @@
         <label>Password
         <input type="password" id= "si_password"></input>
         </label>
-        <button onclick="signIn()">Sign In</button>
+        <button class='btnSignIn btnMenu' onclick="signIn()">Sign In</button>
     </div>  
     <div id ='roomList'></div>
     <!-- <div id="games"></div> -->
-    <div id="message"></div>
-    
-    <div id='infoPanel'>Info</div>
-    <label id="countDownLabel">10</label>
-    <section id='bigHex' style='display:none'></section>
-
-    <div style='position:relative;z-index:10'>
-    <div id="word"></div>
-    <div id="submitReset">
-        <button onclick="submitWord()">Submit</button>
-        <button onclick="resetWord()">Reset</button>
-    </div>
-    <div id="historyHolder"></div>
+    <div class= 'centered'>
+        <div id="message"></div>
+        <div id='infoPanel'>Info</div>
+        <label id="countDownLabel">10</label>
+        <section id='bigHex' style='display:none'></section>
+    	<div style='position:relative;z-index:10'>
+    		<div id="word"></div>
+    		<div id="submitReset">
+        		<button class='btnSubmit btnMenu' onclick="submitWord()">Submit</button>
+        		<button class='btnReset btnMenu' onclick="resetWord()">Reset</button>
+			</div>
+		</div>
+    	<div id="historyHolder"></div>
     </div>
 </body>
 

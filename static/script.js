@@ -54,6 +54,8 @@ async function getState() {
         state.gameRooms.forEach(r => {
 
             let roomButton = document.createElement('button')
+            roomButton.classList.add('btnRooms')
+            roomButton.classList.add(r.roomName.toLowerCase())
             roomList.appendChild(roomButton)
             let playersList = []
             r.players.map(x => playersList.push(x.name))

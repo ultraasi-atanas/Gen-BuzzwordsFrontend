@@ -1,3 +1,9 @@
+ *{font-family: 'Patrick Hand', cursive;
+   font-size: 25px;
+
+}
+ 
+ 
  section{
   
    text-align: center;
@@ -17,12 +23,12 @@
 
 .cellLetter{
   position:relative;
-  top:-35px;
+  top: -50px;
 }
 .cell {
   background-color: aqua;
-  width: 60px;
-  height: 60px;
+  width: 100px;
+  height: 100px;
   margin: 5px;
 }
 
@@ -88,3 +94,70 @@ transform: scale(1.1);
 #countDownLabel{ position:relative;z-index:10;color:blue;font-size:100px;display:none} /* initially hidden*/
 
 .locked{pointer-events: none; background-color:gray !important}
+
+    /* links */
+    /*BOX SHADOW GENERATOR  https://html-css-js.com/css/generator/box-shadow/ */
+    /* CONTENT */
+    /* GLOBALbtn */
+    /* HOVERbtn */
+    /* ROOMSbtn */
+    /* FOCUSbtn */
+    /* sign&submit */
+    /* GLOBALbtn */
+    .btnShow{
+      /*display: flex;
+      flex-direction: column;*/
+  }
+  button{
+      min-width: 75px;
+      min-height: 30px;
+      margin: 5px;
+      border-radius: 3px;
+      border: 2px solid black;
+      position: relative;
+      transition: all .2s;
+  }
+  /* FOCUSbtn */
+  button:focus{
+      animation-name: button-scaleDown;
+      animation-duration: .6s;
+  }
+  @keyframes button-scaleDown {
+      10% {transform: scale(.9);}
+      50% {box-shadow: none;}
+      100%{transform: scale(1)}
+  }
+  /* HOVERbtn */
+  button:hover{
+      -webkit-box-shadow: -2px -1px 21px 3px rgba(54,42,58,0.78); 
+      box-shadow: -3px -1px 8px 0px rgb(54 42 58 / 78%);
+  }   
+  /* ROOMSbtn */
+   /* HOVERbtn */
+  .btnRooms{
+      border: 1px solid black;
+  }
+  .golden{
+      background: linear-gradient(45deg, #977619 0%, gold 50%, #977619 100%);
+  }
+  .silver{
+      background: linear-gradient(45deg, #757574 0%, rgb(219, 216, 216) 50%, #757574 100%);
+  }
+  .bronze{
+      background: linear-gradient(45deg, #b84e03 0%,  #e7b089 50%, #b84e03 100%);
+  }
+  .single{
+      background: linear-gradient(45deg, rgb(39, 153, 190) 0%, rgb(187, 230, 245) 50%, rgb(39, 153, 190) 100%);
+  }
+  /* sign&submit */
+  .btnMenu{
+      background: #131515;
+      color: white;
+  }
+
+  .centered{
+    display:flex;
+    align-items: center;
+    justify-content:center;
+    flex-direction:column;
+  }
