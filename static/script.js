@@ -304,7 +304,7 @@ async function submit(method, url, requestBodyObj) {
     }
 
     //const response = await fetch(url, { method: method, body: payload, credentials: "same-origin",headers: { 'Accept': 'application/json', 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*', 'Access-Control-Allow-Headers': '*'} })
-    const response = await fetch(url, { method: method, body: payload, credentials: "same-origin", headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } })
+    const response = await fetch(url, { method: method, body: payload, credentials: "include", headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' } })
 
     if (response) {
         const promise = await response.json()
